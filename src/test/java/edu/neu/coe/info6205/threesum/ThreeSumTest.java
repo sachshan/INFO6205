@@ -25,6 +25,8 @@ public class ThreeSumTest {
         Arrays.sort(ints);
         ThreeSumQuadratic target = new ThreeSumQuadratic(ints);
         List<Triple> triples = target.getTriples(3);
+        for(Triple i: triples)
+            System.out.println(i.toString());
         assertEquals(2, triples.size());
     }
 

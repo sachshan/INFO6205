@@ -5,6 +5,7 @@
 package edu.neu.coe.info6205.randomwalk;
 
 import java.util.Random;
+import java.lang.Math;
 
 public class RandomWalk {
 
@@ -21,7 +22,8 @@ public class RandomWalk {
      */
     private void move(int dx, int dy) {
         // FIXME do move by replacing the following code
-         throw new RuntimeException("Not implemented");
+         x += dx;
+         y += dy;
         // END 
     }
 
@@ -32,6 +34,8 @@ public class RandomWalk {
      */
     private void randomWalk(int m) {
         // FIXME
+        for(int i=0; i<m;i++)
+            randomMove();
         // END 
     }
 
@@ -52,8 +56,8 @@ public class RandomWalk {
      */
     public double distance() {
         // FIXME by replacing the following code
-         return 0.0;
-        // END 
+        return Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+        // END
     }
 
     /**
@@ -76,11 +80,16 @@ public class RandomWalk {
     public static void main(String[] args) {
         if (args.length == 0)
             throw new RuntimeException("Syntax: RandomWalk steps [experiments]");
+
         int m = Integer.parseInt(args[0]);
         int n = 30;
-        if (args.length > 1) n = Integer.parseInt(args[1]);
+        if (args.length > 1)
+            n = Integer.parseInt(args[1]);
+
         double meanDistance = randomWalkMulti(m, n);
         System.out.println(m + " steps: " + meanDistance + " over " + n + " experiments");
+
+
     }
 
 }
