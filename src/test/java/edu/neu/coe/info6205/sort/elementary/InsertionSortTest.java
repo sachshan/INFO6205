@@ -12,8 +12,7 @@ import edu.neu.coe.info6205.util.StatPack;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -137,6 +136,105 @@ public class InsertionSortTest {
         final int fixes = (int) statPack.getStatistics(InstrumentedHelper.FIXES).mean();
         System.out.println(statPack);
         assertEquals(inversions, fixes);
+    }
+
+    @Test
+    public void OrderedSort() throws Exception
+    {
+        System.out.println("Ordered Array Sorting"+"\n");
+        int n =1280;
+        Integer[] xs = RandomizeArray(n);
+
+        Arrays.sort(xs);
+        int runs = 10000;
+        long time = Benchmark_run(runs,n,xs);
+        System.out.println("time taken on average to Sort a Sorted Array is " + time + " on runs "+runs);
+        System.out.println();
+
+    }
+
+    @Test
+    public void PartialOrderedSort() throws Exception
+    {
+        System.out.println("Partial Array Sorting"+"\n");
+        int n =640;
+        Integer[] xs = RandomizeArray(n);
+
+        Random rand = new Random();
+        for (int i = 0; i < n; i++) {xs[i] = i;}
+        for (int j = 0; j < n/2; j++)  {
+            int x =  rand.nextInt(n/2);
+            int y = n/2 + rand.nextInt(n/2);
+            int temp = xs[x];
+            xs[x] = xs[y];
+            xs[y] = temp;
+        }
+
+        int runs = 10000;
+        long time = Benchmark_run(runs,n,xs);
+        System.out.println("time taken on average to Sort a Partial Sorted Array is " + time + " on runs "+runs);
+        System.out.println();
+
+    }
+
+    @Test
+    public void RandomSort() throws Exception
+    {
+        System.out.println("Random Array Sorting"+"\n");
+        int n =320;
+        Integer[] xs = RandomizeArray(n);
+
+        int runs = 10000;
+        long time = Benchmark_run(runs,n,xs);
+        System.out.println("time taken on average to Sort a Random Array is " + time + " on runs "+runs);
+        System.out.println();
+
+    }
+
+    @Test
+    public void ReverseOrderedSort() throws Exception
+    {
+        System.out.println("Reverse Ordered Array Sorting"+"\n");
+        int n =320;
+        Integer[] xs = RandomizeArray(n);
+
+        Arrays.sort(xs);
+        Collections.reverse(Arrays.asList(xs));
+        int runs = 10000;
+        long time = Benchmark_run(runs,n,xs);
+        System.out.println("time taken on average to Sort a Reverse Sorted Array is " + time + " on runs "+runs);
+        System.out.println();
+
+    }
+
+    public Integer[] RandomizeArray(int n)
+    {
+        Random rand = new Random();
+        Integer[] xs = new Integer[n];
+        for(int i=0;i<n;i++)
+        {
+            xs[i] = rand.nextInt(n);
+        }
+        return xs;
+    }
+
+    public long Benchmark_run(int runs, int n, Integer[] xs)
+    {
+        Integer[] copy = Arrays.copyOf(xs,n);
+
+        long time = 0;
+        InsertionSort instance = new InsertionSort();
+        for(int i=0;i<runs;i++)
+        {
+            long startTime = System.nanoTime();
+            instance.sort(copy,0,n);
+            long endTime = System.nanoTime();
+
+            time = time + (endTime-startTime);
+            copy = Arrays.copyOf(xs,n);
+        }
+        time = time/runs;
+        return time;
     }
 
     final static LazyLogger logger = new LazyLogger(InsertionSort.class);

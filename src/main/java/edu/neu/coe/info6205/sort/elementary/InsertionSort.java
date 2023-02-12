@@ -7,8 +7,10 @@ import edu.neu.coe.info6205.sort.BaseHelper;
 import edu.neu.coe.info6205.sort.Helper;
 import edu.neu.coe.info6205.sort.SortWithHelper;
 import edu.neu.coe.info6205.util.Config;
+import edu.neu.coe.info6205.util.*;
+import java.util.function.Supplier;
 
-public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
+public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X>{
 
     /**
      * Constructor for any sub-classes to use.
@@ -59,6 +61,31 @@ public class InsertionSort<X extends Comparable<X>> extends SortWithHelper<X> {
         final Helper<X> helper = getHelper();
 
         // FIXME
+
+        for(int i=1; i<xs.length; i++)
+        {
+            X element = xs[i];
+
+            int j;
+
+            for(j=i-1; j>=0; j--)
+            {
+                if(helper.compare(element, xs[j])<0)
+                {
+                    xs[j+1] = xs[j];
+                }
+                else {
+
+                    break;
+                }
+
+
+            }
+
+            xs[j+1] = element;
+
+        }
+
         // END 
     }
 
